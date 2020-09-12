@@ -2,8 +2,6 @@ const mysql = require("mysql");
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 
-
-
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -166,7 +164,6 @@ const addRoles = () => {
         title: answers.title,
         salary: answers.salary,
         department_id: answers.department_id
-        
       },
       function(err) {
         if (err) throw err;
@@ -217,7 +214,7 @@ const addEmployees = () => {
       function(err) {
         if (err) throw err;
         console.table(answers);
-        console.log("successfully added department");
+        console.log("successfully added employee");
         mainMenu();
     });
 
