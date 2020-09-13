@@ -31,12 +31,12 @@ const mainMenu = () => {
       name: "mainmenu",
       message: "Welcome, what would you like to do?",
       choices: [
-        "add departments",
-        "add roles",
-        "add employees",
         "view all departments",
         "view all roles",
         "view all employees",
+        "add departments",
+        "add roles",
+        "add employees",
         "update roles",
         "End"
       ]
@@ -61,6 +61,9 @@ const mainMenu = () => {
           break;
         case 'add employees':
           addEmployees();
+          break;
+        case 'update roles':
+          updateRoles();
           break;
         case 'Exit':
           connection.end();
@@ -90,8 +93,7 @@ const viewAllEmployees = () => {
   
 //view all roles
 const viewAllRoles = () => {
-  //let query = "SELECT * FROM role";
-  let query = `SELECT role.id, role.title, role.salary, department.name 
+  let query = `SELECT role.id, role.title, role.salary, department.name
   AS department FROM role INNER JOIN department on department.id = role.department_id`;
   connection.query(query, function (err, res) {
     if (err) throw err
@@ -113,7 +115,6 @@ const viewAllDepartments = () => {
 /////////////////////////////////////////////////
 //add a department to the console
 const addDepartments = () => {
-  //console.log("please enter name of department");
   inquirer.prompt([
     {
       type: "input",
@@ -206,10 +207,9 @@ const addEmployees = () => {
     connection.query("INSERT INTO employee SET ?",
       {
         first_name: answers.first_name,
-        first_name: answers.first_name,
-        role_id: answers.department_id,
-        manager_id: answers.manager_id
-        
+        last_name: answers.last_name,
+        role_id: answers.role_id,
+        manager_id: answers.manager_id      
       },
       function(err) {
         if (err) throw err;
@@ -221,6 +221,28 @@ const addEmployees = () => {
   });
 
 }
+
+//update employees roles 
+const updateRoles = () => {
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "title",
+      message: "what title would you like to update?"
+    },
+    {
+      type: "input",
+      name: "salary",
+      message: "What salary would you like to update?"
+    },
+  ]).then(answers => {
+
+  })
+  
+}
+//title
+//salary
+//department_id
 
 
 //mainMenu();
