@@ -14,14 +14,13 @@ connection.connect(function (err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
   mainMenu();
- //const userId = "6";
- //const firstName = "Jack";
- //connection.query('SELECT * FROM employee WHERE id=? AND first_name=?',[userId, firstName], function(err, dtaa) {
-   //if (err) throw err;
-   //console.log(dtaa);
- //})
+  //const userId = "6";
+  //const firstName = "Jack";
+  //connection.query('SELECT * FROM employee WHERE id=? AND first_name=?',[userId, firstName], function(err, dtaa) {
+  //if (err) throw err;
+  //console.log(dtaa);
+  //})
 });
-
 
 //you will be directed her upon entering app
 const mainMenu = () => {
@@ -43,54 +42,53 @@ const mainMenu = () => {
     },
 
   ]).then(function (choice) {
-      switch (choice.mainmenu) {
-        case 'view all employees':
-          viewAllEmployees();
-          break;
-        case 'view all departments':
-          viewAllDepartments();
-          break;
-        case 'view all roles':
-          viewAllRoles();
-          break;
-        case 'add departments':
-          addDepartments();
-          break;
-        case 'add roles':
-          addRoles();
-          break;
-        case 'add employees':
-          addEmployees();
-          break;
-        case 'update roles':
-          updateRoles();
-          break;
-        case 'Exit':
-          connection.end();
-          //break;
-      }
+    switch (choice.mainmenu) {
+      case 'view all employees':
+        viewAllEmployees();
+        break;
+      case 'view all departments':
+        viewAllDepartments();
+        break;
+      case 'view all roles':
+        viewAllRoles();
+        break;
+      case 'add departments':
+        addDepartments();
+        break;
+      case 'add roles':
+        addRoles();
+        break;
+      case 'add employees':
+        addEmployees();
+        break;
+      case 'update roles':
+        updateRoles();
+        break;
+      case 'Exit':
+        connection.end();
+      //break;
+    }
 
-    });
-
+  });
 }
 
 //display the employees
 const viewAllEmployees = () => {
   var query =
-  `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, 
+    `SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, 
   department.name AS department, CONCAT(e.first_name, ' ' ,e.last_name) 
   AS Manager FROM employee INNER JOIN role ON role.id = employee.role_id 
   INNER JOIN department ON department.id = role.department_id 
   LEFT JOIN employee e ON employee.manager_id = e.id`
-    connection.query(query, 
-      function(err, res) {
-        if (err) throw err;
-        console.table(res);
-        mainMenu();
-      })
+  connection.query(query,
+    function (err, res) {
+      if (err) throw err;
+      console.table(res);
+      mainMenu();
+    })
 
-}   
-  
+}
+
 //view all roles
 const viewAllRoles = () => {
   let query = `SELECT role.id, role.title, role.salary, department.name
@@ -122,17 +120,17 @@ const addDepartments = () => {
       message: "What is the name of the department you want to add?",
     }
 
-  ]).then(function(answers) {
+  ]).then(function (answers) {
     connection.query("INSERT INTO department SET ?",
       {
         name: answers.name
       },
-      function(err) {
+      function (err) {
         if (err) throw err;
         console.table(answers);
         console.log("successfully added department");
         mainMenu();
-    });
+      });
 
   });
 
@@ -166,12 +164,12 @@ const addRoles = () => {
         salary: answers.salary,
         department_id: answers.department_id
       },
-      function(err) {
+      function (err) {
         if (err) throw err;
         console.table(answers);
         console.log("successfully added department");
         mainMenu();
-    });
+      });
 
   });
 
@@ -209,14 +207,14 @@ const addEmployees = () => {
         first_name: answers.first_name,
         last_name: answers.last_name,
         role_id: answers.role_id,
-        manager_id: answers.manager_id      
+        manager_id: answers.manager_id || 0
       },
-      function(err) {
+      function (err) {
         if (err) throw err;
         console.table(answers);
         console.log("successfully added employee");
         mainMenu();
-    });
+      });
 
   });
 
@@ -224,26 +222,48 @@ const addEmployees = () => {
 
 //update employees roles 
 const updateRoles = () => {
-  inquirer.prompt([
-    {
-      type: "input",
-      name: "title",
-      message: "what title would you like to update?"
-    },
-    {
-      type: "input",
-      name: "salary",
-      message: "What salary would you like to update?"
-    },
-  ]).then(answers => {
+//get employee names and job titles
+//make a select connection to query
+var query = `SELECT CONCAT(first_name," ",last_name) AS employee FROM employee INNER JOIN role ON employee.role_id = role_id`;
+  connection.query(query, function(err, res) {
+    if (err) throw err;
+    console.log(res);
 
-  })
-  
+    inquirer.prompt([
+      {
+        type:"list",
+        name: "employee",
+        message: "What employee do you want to update?",
+        choices: function (err) {
+          let employee = [];
+          for (let i = 0; i < res.length; i++) {
+            employee.push(res[i].employee)
+          }
+          return employee;
+        }
+      },
+      {
+        type: "list",
+        name: "employee",
+        message: "what title do you want to update the employee to?",
+        choices:d 
+      }
+
+    ]).then()
+
+  });
+
+
+
+
+
+
+
+
+
+
+
 }
-//title
-//salary
-//department_id
-
 
 //mainMenu();
 /*
