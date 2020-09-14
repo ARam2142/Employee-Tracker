@@ -231,7 +231,7 @@ const updateRoles = () => {
 
     inquirer.prompt([
       {
-        type: "rawlist",
+        type: "list",
         name: "employee",
         message: "What employee do you want to update?",
         choices: function () {
@@ -243,7 +243,7 @@ const updateRoles = () => {
         }
       },
       {//still in the works so stay tuned
-        type: "rawlist",
+        type: "list",
         name: "title",
         message: "What title do you want to update to?",
         choices: function () {
