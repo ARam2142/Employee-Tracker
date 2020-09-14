@@ -242,7 +242,9 @@ const updateRoles = () => {
           return employee;
         }
       },
+      /*
       {//still in the works so stay tuned
+        
         type: "list",
         name: "title",
         message: "What title do you want to update to?",
@@ -254,8 +256,10 @@ const updateRoles = () => {
           }
           return title;
         }
-      }
-    ])//.then(answers => {
+      }*/
+    ])
+    
+    //.then(answers => {
     /*connection.query("UPDATE title SET WHERE ?",
     {
       employee:
@@ -265,13 +269,13 @@ const updateRoles = () => {
 
 
 
+  
 
+      
 
-
-
-  })
-
-
+ });
+    
+      
 }
 
 //mainMenu();
