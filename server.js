@@ -222,19 +222,19 @@ const addEmployees = () => {
 
 //update employees roles 
 const updateRoles = () => {
-//get employee names and job titles
-//make a select connection to query
-var query = `SELECT CONCAT(first_name," ",last_name) AS employee FROM employee INNER JOIN role ON employee.role_id = role_id`;
-  connection.query(query, function(err, res) {
+  //get employee names and job titles
+  //make a select connection to query
+  var query = `SELECT CONCAT(first_name," ",last_name) AS employee FROM employee INNER JOIN role ON employee.role_id = role_id`;
+  connection.query(query, function (err, res) {
     if (err) throw err;
     console.log(res);
 
     inquirer.prompt([
       {
-        type:"list",
+        type: "rawlist",
         name: "employee",
         message: "What employee do you want to update?",
-        choices: function (err) {
+        choices: function () {
           let employee = [];
           for (let i = 0; i < res.length; i++) {
             employee.push(res[i].employee)
@@ -242,25 +242,34 @@ var query = `SELECT CONCAT(first_name," ",last_name) AS employee FROM employee I
           return employee;
         }
       },
-      {
-        type: "list",
-        name: "employee",
-        message: "what title do you want to update the employee to?",
-        choices:d 
+      {//still in the works so stay tuned
+        type: "rawlist",
+        name: "title",
+        message: "What title do you want to update to?",
+        choices: function () {
+          if (err) throw err;
+          let title = [];
+          for (let i = 0; i < res.length; i++) {
+            title.push(res[i].title)
+          }
+          return title;
+        }
       }
-
-    ]).then()
-
-  });
-
-
-
-
+    ])//.then(answers => {
+    /*connection.query("UPDATE title SET WHERE ?",
+    {
+      employee:
+    },
+  });*/
 
 
 
 
 
+
+
+
+  })
 
 
 }
